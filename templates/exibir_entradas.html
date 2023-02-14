@@ -1,14 +1,17 @@
-<h1>Meu Blog</h1>
-<p>Isso é um paragrafo</p>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Page Title</title>
 </head>
 <body>
-
 <h1>This is a Heading</h1>
 <p>This is a paragraph.</p>
+
+{% for entrada in entradas %}
+<h2>{{ entrada['titulo'] }}</h2>
+<p>{{ entrada['texto'] }}</p>
+{% endfor %} 
+
 
 </body>
 </html>
