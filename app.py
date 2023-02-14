@@ -22,8 +22,3 @@ posts = [
 @app.route('/')
 def exibir_entradas():
     return render_template("exibir_entradas.html", entradas=posts)
-
-@app.route('/pudim')
-def pudim():
-    return "<h1>Eu gosto de pudim</h1>"
-

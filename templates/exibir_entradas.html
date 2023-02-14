@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Page Title</title>
-</head>
-<body>
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+{% extends "layout.html" %}
 
-{% for entrada in entradas %}
-<h2>{{ entrada['titulo'] }}</h2>
-<p>{{ entrada['texto'] }}</p>
-{% endfor %} 
-
-
-</body>
-</html>
+{% block corpo %}
+  <ul class="entradas">
+  {% for entrada in entradas %}
+    <li><h2>{{ entrada.titulo }}</h2>{{ entrada.texto|safe }}
+  {% else %}
+    <li><em>Inacreditável. Até agora nenhuma entrada.</em>
+  {% endfor %}
+  </ul>
+{% endblock %}
