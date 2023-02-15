@@ -31,8 +31,12 @@ def exibir_entradas():
 
 @app.route('/inserir', methods=['POST'])
 def inserir_entradas():
-    request.form['titulo']
-    request.form['titulo']
+    novo_post = {
+        "titulo": request.form['titulo'],
+        "texto": request.form['texto']
+    }
+
+    posts.append(novo_post)
     return redirect(url_for('exibir_entradas'))
 
 @app.route('/login', methods=["GET", "POST"])
