@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Relógio</title>
+  <script src="https://cdn.jsdelivr.net/momentjs/2.24.0/moment.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script>
+    function updateClock() {
+      $.get("/clock", function(time) {
+        $("#clock").text(time);
+      });
+    }
+    $(document).ready(function() {
+      setInterval(updateClock, 1000);
+    });
+  </script>
+</head>
+<body>
+  <h1>Relógio</h1>
+  <h1><p id="clock"></p></h1>
+</body>
+</html>

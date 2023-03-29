@@ -1,72 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, g, abort
-import sqlite3
-from datetime import datetime
+from flask import Flask, render_template
+import moment
 
-app = Flask("__name__")
-SECRET_KEY = "pudim"
-DATABASE = "blog.bd"
-app.config.from_object(__name__)
+app = Flask(__name__)
 
-#POSTS MOCK
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-# USER MOCKS
-USERNAME = "admin"
-PASSWORD = "admin"
+@app.route("/clock")
+def clock():
+    time = moment.now().strftime("%H:%M:%S")
+    return time
 
-def conectar_bd():
-    return sqlite3.connect(DATABASE)
-
-@app.before_request
-def pre_requisicao():
-    g.bd = conectar_bd()
-
-@app.teardown_request
-def encerrar_requisicao(exception):
-    g.bd.close()
-
-@app.route('/')
-def exibir_entradas():
-    sql = "SELECT titulo, texto FROM entradas ORDER BY id DESC"
-    cursor = g.bd.execute(sql)
-    entradas = [{"titulo": titulo, "texto": texto} for titulo, texto in cursor.fetchall()]
-    return render_template("exibir_entradas.html", entradas=entradas)
-    
-@app.route('/inserir', methods=["POST"])
-def inserir_entradas():
-    if not session['logado']:
-        abort(401)
-    sql = "INSERT INTO entradas(titulo, texto) VALUES (?, ?)"
-    g.bd.execute(sql, [request.form['titulo'], request.form['texto']])
-    g.bd.commit()
-    flash("Novo Post criado com sucesso!")
-    return redirect(url_for('exibir_entradas'))
-    posts.append(novo_post)
-    return redirect(url_for('exibir_entradas'))
-
-
-@app.route('/login', methods=["GET", "POST"])
-def login():
-    erro = ""
-    if request.method == "POST":
-        if request.form['username'] == USERNAME and request.form['password'] == PASSWORD:
-            session['logado'] = True
-            flash("Login efetuado com sucesso!")
-            return redirect(url_for('exibir_entradas'))
-        erro = "Usuário ou senha inválidos"
-    now = datetime.now() # current date and time
-    date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
-    return render_template('login.html', date_time=date_time)
-    return render_template("login.html", erro=erro)
-
-
-@app.route('/logout')
-def logout():
-    session.pop('logado', None)
-    flash("Logout efetuado com sucesso!")
-    return redirect(url_for('exibir_entradas'))
-
-@app.route('/')
-def date_time():
-    now = datetime.now() # current date and time
-    date_time = now.strftime("%d/%m/%Y, %H:%M:%S")
-    return render_template('layout.html', date_time=date_time)
+if __name__ == "__main__":
+    app.run(debug=True)
