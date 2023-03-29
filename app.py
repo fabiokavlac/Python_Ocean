@@ -1,5 +1,7 @@
 from flask import Flask, render_template
 import moment
+from datetime import datetime
+import pytz
 
 app = Flask(__name__)
 
@@ -9,7 +11,8 @@ def index():
 
 @app.route("/clock")
 def clock():
-    time = moment.now().strftime("%H:%M:%S")
+    tz = pytz.timezone("America/Sao_Paulo")
+    time = datetime.now(tz).strftime("%H:%M:%S")
     return time
 
 if __name__ == "__main__":
